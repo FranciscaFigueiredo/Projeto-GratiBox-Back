@@ -7,7 +7,7 @@ let databaseConfig = {
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
     host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
+    database: process.env.DB_NAME,
 };
 
 if (process.env.NODE_ENV === 'production') {

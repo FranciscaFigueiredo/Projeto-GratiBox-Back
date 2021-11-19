@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
-import { connection } from '../database/database';
-import { userSchema } from '../validation/signUp';
+import { connection } from '../database/database.js';
+import { userSchema } from '../validation/signUp.js';
 
 async function signUp(req, res) {
     const {
