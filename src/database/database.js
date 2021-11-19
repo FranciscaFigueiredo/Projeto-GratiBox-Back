@@ -21,4 +21,6 @@ if (process.env.NODE_ENV === 'production') {
 
 const connection = new Pool(databaseConfig);
 
-export default connection;
+export {
+    connection,
+};
