@@ -3,7 +3,7 @@ import cors from 'cors';
 
 import { signUp } from './controllers/signUp.js';
 import { login } from './controllers/login.js';
-import { getUserPlan } from './controllers/subscriptions.js';
+import { getUserPlan, toSign } from './controllers/subscriptions.js';
 import { auth } from './middlewares/auth.js';
 import { getUserInfo } from './controllers/client.js';
 import { getPlans } from './controllers/plans.js';
@@ -30,8 +30,8 @@ app.get('/user-info', auth, getUserInfo);
 app.get('/states', auth, getStates);
 app.post('/address', auth, postAddress);
 
-// ------ ADDRESS ------
-// app.get('/states', auth, postAddress);
+// ------ SUBSCRIBE ------
+app.post('/subscribe', auth, toSign);
 
 export {
     app,
