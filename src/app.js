@@ -7,6 +7,7 @@ import { getUserPlan } from './controllers/subscriptions.js';
 import { auth } from './middlewares/auth.js';
 import { getUserInfo } from './controllers/client.js';
 import { getPlans } from './controllers/plans.js';
+import { getStates, postAddress } from './controllers/address.js';
 
 const app = express();
 app.use(cors());
@@ -24,6 +25,13 @@ app.get('/plan-types', auth, getPlans);
 
 // ------ CLIENT ------
 app.get('/user-info', auth, getUserInfo);
+
+// ------ ADDRESS ------
+app.get('/states', auth, getStates);
+app.post('/address', auth, postAddress);
+
+// ------ ADDRESS ------
+// app.get('/states', auth, postAddress);
 
 export {
     app,
