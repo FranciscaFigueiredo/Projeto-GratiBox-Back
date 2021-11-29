@@ -4,7 +4,7 @@ async function getPlans(req, res) {
     try {
         const plans = await planService.getPlans();
 
-        return res.status(200).send(plans.rows);
+        return res.status(200).send(plans);
     } catch (error) {
         return res.status(500).send({ message: 'O banco de dados está offline' });
     }

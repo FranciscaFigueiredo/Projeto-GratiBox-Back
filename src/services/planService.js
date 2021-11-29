@@ -18,7 +18,17 @@ async function getUserPlan({ userId }) {
     return false;
 }
 
+async function getPlanByName({ name }) {
+    const userPlan = await planRepository.getPlanByName({ name });
+
+    if (userPlan) {
+        return userPlan;
+    }
+    return false;
+}
+
 export {
     getPlans,
     getUserPlan,
+    getPlanByName,
 };

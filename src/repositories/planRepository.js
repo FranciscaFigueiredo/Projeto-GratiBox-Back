@@ -20,7 +20,18 @@ async function getUserPlan({ userId }) {
     }
 }
 
+async function getPlanByName({ name }) {
+    try {
+        const planData = await connection.query('SELECT * FROM plans WHERE name = $1;', [name]);
+
+        return planData.rows[0];
+    } catch (error) {
+        return false;
+    }
+}
+
 export {
     getPlans,
     getUserPlan,
+    getPlanByName,
 };
