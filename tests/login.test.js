@@ -1,29 +1,21 @@
 import '../src/setup.js';
+import faker from 'faker';
 import supertest from 'supertest';
-import { connection } from '../src/database/database.js';
 import { app } from '../src/app.js';
-import {
-    validBodyFactorySignUp,
-} from '../src/factories/signUp.factory.js';
-import {
-    validBodyFactoryLogin,
-    invalidBodyFactoryLogin,
-} from '../src/factories/login.factory.js';
+import * as userService from '../src/services/userService.js';
+import { connection } from '../src/database/database.js';
 
+function createBody() {
+    return {
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+        password: '123123123',
+    };
+}
+
+const userCreated = createBody();
 beforeAll(async () => {
-    const {
-        name,
-        email,
-        password,
-    } = validBodyFactorySignUp();
-
-    await connection.query(
-        `
-        INSERT INTO clients 
-            (name, email, password) 
-        VALUES ($1, $2, $3);`,
-        [name, email, password],
-    );
+    await userService.authenticateRegistration(userCreated);
 });
 
 afterAll(async () => {
@@ -32,35 +24,37 @@ afterAll(async () => {
 });
 
 describe('POST /login', () => {
-    async function getClient() {
-        const validBody = await connection.query(`
-            SELECT * FROM clients;
-        `);
+    const {
+        email,
+        password,
+    } = userCreated;
 
-        return validBody;
-    }
+    test('returns 200 for valid body', async () => {
+        await connection.query('SELECT * FROM clients;');
 
-    let body = getClient();
-    body = body.rows[0].id;
+        const result = await supertest(app).post('/login').send({
+            email,
+            password,
+        });
 
-    const invalidBody = invalidBodyFactoryLogin();
-    const invalidUser = validBodyFactoryLogin();
+        expect(result.status).toEqual(200);
+    });
 
     test('returns 400 for invalid body', async () => {
-        const result = await supertest(app).post('/login').send(invalidBody);
+        const result = await supertest(app).post('/login').send({
+            email,
+            password: '',
+        });
 
         expect(result.status).toEqual(400);
     });
 
     test('returns 401 for invalid user data', async () => {
-        const result = await supertest(app).post('/login').send(invalidUser);
+        const result = await supertest(app).post('/login').send({
+            email,
+            password: `${password}123`,
+        });
 
         expect(result.status).toEqual(401);
-    });
-
-    test('returns 200 for valid body', async () => {
-        const result = await supertest(app).post('/login').send(body);
-
-        expect(result.status).toEqual(200);
     });
 });
