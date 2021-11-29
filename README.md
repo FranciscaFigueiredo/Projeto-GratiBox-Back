@@ -8,7 +8,7 @@ GratiBox aims to encourage a healthier lifestyle, delivering a box with healthy 
 
 ## How to install and run on terminal
 
-#### It is necessary to install npm: https://nodejs.org/en/download/
+#### It is necessary to install node: https://nodejs.org/en/download/
 
 <br/>
 

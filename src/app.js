@@ -2,11 +2,11 @@ import express from 'express';
 import cors from 'cors';
 
 import { auth } from './middlewares/auth.js';
-import { getStates, postAddress } from './controllers/address.js';
 
 import * as userController from './controllers/userController.js';
 import * as planController from './controllers/planController.js';
 import * as subscriptionController from './controllers/subscriptionController.js';
+import * as addressController from './controllers/addressController.js';
 
 const app = express();
 app.use(cors());
@@ -26,8 +26,8 @@ app.get('/plan-types', auth, planController.getPlans);
 app.get('/user-info', auth, userController.getUserInfo);
 
 // ------ ADDRESS ------
-app.get('/states', auth, getStates);
-app.post('/address', auth, postAddress);
+app.get('/states', auth, addressController.getStates);
+app.post('/address', auth, addressController.postAddress);
 
 // ------ SUBSCRIBE ------
 app.post('/subscribe', auth, subscriptionController.toSign);

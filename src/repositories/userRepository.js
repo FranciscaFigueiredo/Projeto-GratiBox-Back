@@ -22,12 +22,31 @@ async function create({ name, email, password }) {
 }
 
 async function findUser({ userId }) {
-    const userInfo = await connection.query('SELECT name, email FROM clients WHERE id = $1;', [userId]);
-    return userInfo.rows[0];
+    try {
+        const userInfo = await connection.query('SELECT name, email FROM clients WHERE id = $1;', [userId]);
+        return userInfo.rows[0];
+    } catch (error) {
+        return false;
+    }
+}
+
+async function updateAddress({ addressId, userId }) {
+    try {
+        await connection.query(`
+            UPDATE clients
+            SET address_id = $1
+            WHERE id = $2;
+        `, [addressId, userId]);
+
+        return true;
+    } catch (error) {
+        return false;
+    }
 }
 
 export {
     findEmail,
     create,
     findUser,
+    updateAddress,
 };
