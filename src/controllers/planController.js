@@ -6,7 +6,7 @@ async function getPlans(req, res) {
 
         return res.status(200).send(plans);
     } catch (error) {
-        return res.status(500).send({ message: 'O banco de dados está offline' });
+        return res.status(500);
     }
 }
 

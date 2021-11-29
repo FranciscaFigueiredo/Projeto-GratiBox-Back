@@ -21,7 +21,13 @@ async function create({ name, email, password }) {
     }
 }
 
+async function findUser({ userId }) {
+    const userInfo = await connection.query('SELECT name, email FROM clients WHERE id = $1;', [userId]);
+    return userInfo.rows[0];
+}
+
 export {
     findEmail,
     create,
+    findUser,
 };

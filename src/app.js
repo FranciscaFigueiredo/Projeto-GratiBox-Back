@@ -1,13 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 
-import { toSign } from './controllers/subscriptions.js';
 import { auth } from './middlewares/auth.js';
-import { getUserInfo } from './controllers/client.js';
 import { getStates, postAddress } from './controllers/address.js';
 
 import * as userController from './controllers/userController.js';
 import * as planController from './controllers/planController.js';
+import * as subscriptionController from './controllers/subscriptionController.js';
 
 const app = express();
 app.use(cors());
@@ -24,14 +23,14 @@ app.get('/plan', auth, planController.getUserPlan);
 app.get('/plan-types', auth, planController.getPlans);
 
 // ------ CLIENT ------
-app.get('/user-info', auth, getUserInfo);
+app.get('/user-info', auth, userController.getUserInfo);
 
 // ------ ADDRESS ------
 app.get('/states', auth, getStates);
 app.post('/address', auth, postAddress);
 
 // ------ SUBSCRIBE ------
-app.post('/subscribe', auth, toSign);
+app.post('/subscribe', auth, subscriptionController.toSign);
 
 export {
     app,

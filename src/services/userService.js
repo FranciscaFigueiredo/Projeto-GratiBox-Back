@@ -56,8 +56,19 @@ async function authenticateLogin({ email, password }) {
     };
 }
 
+async function getUserInfo({ userId }) {
+    const search = await userRepository.findUser({ userId });
+
+    if (search) {
+        return search;
+    }
+
+    return false;
+}
+
 export {
     authenticateRegistration,
     generateToken,
     authenticateLogin,
+    getUserInfo,
 };

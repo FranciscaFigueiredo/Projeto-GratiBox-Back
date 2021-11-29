@@ -53,7 +53,20 @@ async function login(req, res) {
     }
 }
 
+async function getUserInfo(req, res) {
+    const userId = res.locals.user.idUser;
+
+    try {
+        const client = userService.getUserInfo({ userId });
+
+        return res.status(200).send(client);
+    } catch (error) {
+        return res.status(500);
+    }
+}
+
 export {
     signUp,
     login,
+    getUserInfo,
 };
